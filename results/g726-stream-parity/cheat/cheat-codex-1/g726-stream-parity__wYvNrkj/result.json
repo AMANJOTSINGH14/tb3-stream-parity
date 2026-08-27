@@ -1,0 +1,117 @@
+{
+    "id": "3231946d-2ea6-43f9-82cd-cb881a2fac4b",
+    "task_name": "terminal-bench/g726-stream-parity",
+    "trial_name": "g726-stream-parity__wYvNrkj",
+    "trial_uri": "file:///C:/Users/91962/file1/klavisai/results/g726-stream-parity/cheat/fixture-shim1-codex-1/g726-stream-parity__wYvNrkj",
+    "task_id": {
+        "path": "C:\\Users\\91962\\AppData\\Local\\Temp\\tb3-cheat-stage-DmuEyG\\g726-stream-parity"
+    },
+    "source": null,
+    "task_checksum": "076e53b3671398774d1c1e4a86b9cb8eec5a6ffdbf429b83921f038757532674",
+    "config": {
+        "task": {
+            "path": "C:\\Users\\91962\\AppData\\Local\\Temp\\tb3-cheat-stage-DmuEyG\\g726-stream-parity",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "g726-stream-parity__wYvNrkj",
+        "trials_dir": "C:\\Users\\91962\\file1\\klavisai\\results\\g726-stream-parity\\cheat\\fixture-shim1-codex-1",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": 6.0,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "codex",
+            "import_path": null,
+            "model_name": "openai/gpt-5.6-sol",
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "reasoning_effort": "xhigh"
+            },
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "f294317b-55df-499c-9762-c8b90b778a86",
+        "source_trial": null
+    },
+    "agent_info": {
+        "name": "codex",
+        "version": "0.150.0",
+        "model_info": {
+            "name": "gpt-5.6-sol",
+            "provider": "openai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "verifier_environment_mode": "separate",
+    "exception_info": null,
+    "started_at": "2026-08-26T22:15:21.589764Z",
+    "finished_at": "2026-08-26T22:24:03.916175Z",
+    "environment_setup": {
+        "started_at": "2026-08-26T22:15:21.737802Z",
+        "finished_at": "2026-08-26T22:15:27.553904Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-08-26T22:15:27.553966Z",
+        "finished_at": "2026-08-26T22:19:12.963138Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-08-26T22:19:12.963344Z",
+        "finished_at": "2026-08-26T22:23:24.905496Z"
+    },
+    "verifier": {
+        "started_at": "2026-08-26T22:23:37.695899Z",
+        "finished_at": "2026-08-26T22:24:03.916162Z"
+    },
+    "step_results": null
+}

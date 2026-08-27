@@ -1,0 +1,1 @@
+{"pid":6800,"sessionId":"bbeb8936-7f2c-4807-bd45-95719ab8483b","cwd":"/app","startedAt":1787750057591,"procStart":"62303","version":"2.1.246","peerProtocol":1,"peerFeatures":["notify_idle","artifact_yield"],"kind":"interactive","entrypoint":"sdk-cli","pidDomain":"linux::pid:[4026532468]","name":"app-6b","nameSource":"derived","nameSince":1787750057610}

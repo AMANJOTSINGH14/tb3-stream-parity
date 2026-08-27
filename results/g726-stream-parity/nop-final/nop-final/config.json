@@ -1,0 +1,14 @@
+{
+    "job_name": "nop-final",
+    "jobs_dir": "results\\g726-stream-parity\\nop-final",
+    "agents": [
+        {
+            "name": "nop"
+        }
+    ],
+    "tasks": [
+        {
+            "path": "tasks\\g726-stream-parity"
+        }
+    ]
+}

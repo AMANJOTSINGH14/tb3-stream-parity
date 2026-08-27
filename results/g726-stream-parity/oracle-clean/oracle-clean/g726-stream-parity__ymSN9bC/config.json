@@ -1,0 +1,8 @@
+{
+    "task": {
+        "path": "tasks\\g726-stream-parity"
+    },
+    "trial_name": "g726-stream-parity__ymSN9bC",
+    "trials_dir": "results\\g726-stream-parity\\oracle-clean\\oracle-clean",
+    "job_id": "65b4f5b5-f101-4312-b1de-3cac03771d9b"
+}

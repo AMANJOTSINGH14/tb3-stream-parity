@@ -1,0 +1,1 @@
+{"pid":6799,"sessionId":"2933a271-b770-466c-9287-c5e9525400d9","cwd":"/app","startedAt":1787802164577,"procStart":"3636554","version":"2.1.247","peerProtocol":1,"peerFeatures":["notify_idle","artifact_yield"],"kind":"interactive","entrypoint":"sdk-cli","pidDomain":"linux::pid:[4026532468]","name":"app-19","nameSource":"derived","nameSince":1787802164586}

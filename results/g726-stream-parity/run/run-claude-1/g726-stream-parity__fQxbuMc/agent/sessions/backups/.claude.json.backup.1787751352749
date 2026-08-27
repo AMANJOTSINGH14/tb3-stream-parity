@@ -1,0 +1,15 @@
+{
+  "unpinOpus47LaunchEffort": true,
+  "unpinOpus48LaunchEffort": true,
+  "unpinFable5LaunchEffort": true,
+  "firstStartTime": "2026-08-26T13:14:16.832Z",
+  "firstStartVersion": "2.1.246",
+  "machineID": "620fd7ec297cb479828ca6c13713f963acee96c9c8cb935f492ff05284a9d393",
+  "opusProMigrationComplete": true,
+  "sonnet1m45MigrationComplete": true,
+  "seenNotifications": {},
+  "hasResetAutoModeOptInForDefaultOffer": true,
+  "migrationVersion": 13,
+  "userID": "85e12658eb6fa04e9ffa43cd15b598a4614980ac5d6efa513d64db77699ba9f0",
+  "cachedExtraUsageDisabledReason": "org_level_disabled"
+}

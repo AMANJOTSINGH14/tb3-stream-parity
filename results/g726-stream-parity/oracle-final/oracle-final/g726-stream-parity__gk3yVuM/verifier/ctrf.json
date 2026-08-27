@@ -1,0 +1,256 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-08-26T03:49:16.285749+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "9.1.1"
+        },
+        "summary": {
+            "tests": 19,
+            "passed": 19,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1787716136881,
+            "stop": 1787716156283
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_codec.py::test_01_protocol_surface",
+                "status": "passed",
+                "duration": 333,
+                "start": 1787716136922,
+                "stop": 1787716137255,
+                "retries": 0,
+                "file_path": "test_codec.py"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 637,
+                "start": 1787716137256,
+                "stop": 1787716137893,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 600,
+                "start": 1787716137893,
+                "stop": 1787716138493,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 636,
+                "start": 1787716138494,
+                "stop": 1787716139130,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 580,
+                "start": 1787716139133,
+                "stop": 1787716139713,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 615,
+                "start": 1787716139713,
+                "stop": 1787716140328,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 619,
+                "start": 1787716140328,
+                "stop": 1787716140947,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 711,
+                "start": 1787716140947,
+                "stop": 1787716141658,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "passed",
+                "duration": 607,
+                "start": 1787716141658,
+                "stop": 1787716142265,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "passed",
+                "duration": 685,
+                "start": 1787716142265,
+                "stop": 1787716142950,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "passed",
+                "duration": 604,
+                "start": 1787716142950,
+                "stop": 1787716143554,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "passed",
+                "duration": 572,
+                "start": 1787716143555,
+                "stop": 1787716144127,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "passed",
+                "duration": 583,
+                "start": 1787716144128,
+                "stop": 1787716144711,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "passed",
+                "duration": 1756,
+                "start": 1787716144712,
+                "stop": 1787716146468,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "passed",
+                "duration": 1603,
+                "start": 1787716146469,
+                "stop": 1787716148072,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "passed",
+                "duration": 1750,
+                "start": 1787716148072,
+                "stop": 1787716149822,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "passed",
+                "duration": 1664,
+                "start": 1787716149822,
+                "stop": 1787716151486,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ]
+            },
+            {
+                "name": "test_codec.py::test_05_cross_byte_packing",
+                "status": "passed",
+                "duration": 298,
+                "start": 1787716151486,
+                "stop": 1787716151784,
+                "retries": 0,
+                "file_path": "test_codec.py"
+            },
+            {
+                "name": "test_codec.py::test_06_runtime",
+                "status": "passed",
+                "duration": 4498,
+                "start": 1787716151784,
+                "stop": 1787716156282,
+                "retries": 0,
+                "file_path": "test_codec.py"
+            }
+        ]
+    }
+}

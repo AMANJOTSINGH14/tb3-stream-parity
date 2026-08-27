@@ -1,0 +1,16 @@
+{
+    "task": {
+        "path": "tasks\\g726-stream-parity"
+    },
+    "trial_name": "g726-stream-parity__fQxbuMc",
+    "trials_dir": "C:\\Users\\91962\\file1\\klavisai\\results\\g726-stream-parity\\run\\run-claude-1",
+    "agent_setup_timeout_multiplier": 6.0,
+    "agent": {
+        "name": "claude-code",
+        "model_name": "anthropic/claude-opus-5",
+        "kwargs": {
+            "reasoning_effort": "max"
+        }
+    },
+    "job_id": "80df939c-8688-4bd5-88eb-802b8723535e"
+}

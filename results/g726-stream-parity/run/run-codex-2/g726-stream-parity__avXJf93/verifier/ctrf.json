@@ -1,0 +1,307 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-08-26T17:51:50.395838+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "9.1.1"
+        },
+        "summary": {
+            "tests": 19,
+            "passed": 2,
+            "failed": 17,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1787766685162,
+            "stop": 1787766710392
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_codec.py::test_01_protocol_surface",
+                "status": "passed",
+                "duration": 298,
+                "start": 1787766685197,
+                "stop": 1787766685495,
+                "retries": 0,
+                "file_path": "test_codec.py"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 827,
+                "start": 1787766685496,
+                "stop": 1787766686323,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'itu', signal = 'speech'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'm\\xb6\\xdbm\\...1;2y\\xc4\\xaey' == b'm\\xb6\\xdbm\\...f8\\x92WG\\x94v'\nE         \nE         At index 59 diff: b'\\xaf' != b'\\xb5'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 791,
+                "start": 1787766686324,
+                "stop": 1787766687115,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'aal2', signal = 'speech'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\xdb\\xb6m\\x...b1\\x97<N\\xf4<' == b'\\xdb\\xb6m\\x...8\\xca\\xa3\\xd8'\nE         \nE         At index 59 diff: b'\\xf7' != b'\\xbb'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 774,
+                "start": 1787766687115,
+                "stop": 1787766687889,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'itu', signal = 'speech'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       assert b'\\x84!\\x08B\\...3\\xcc\\xff\\x86' == b'\\x84!\\x08B\\...f96\\xf4\"\\x0b>'\nE         \nE         At index 91 diff: b'm' != b'1'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 821,
+                "start": 1787766687889,
+                "stop": 1787766688710,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'aal2', signal = 'speech'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\x10B\\x08!\\...f\\xffid\\x9e?7' == b'\\x10B\\x08!\\...c\\xcffkAD\\xf6'\nE         \nE         At index 90 diff: b'?' != b'\\x1f'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 729,
+                "start": 1787766688711,
+                "stop": 1787766689440,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'itu', signal = 'transitions'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...x99\\'\\xfe\\x91' == b'\\xff\\xff\\xf...\\xbeg\\x1f\\xd7'\nE         \nE         At index 363 diff: b'>' != b'\\xe7'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 873,
+                "start": 1787766689441,
+                "stop": 1787766690314,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'aal2', signal = 'transitions'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...+Jt/\\xc9\\x7f)' == b'\\xff\\xff\\xf...d\\x8b\\xf3\\xeb'\nE         \nE         At index 363 diff: b'y' != b'\\x8f'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 773,
+                "start": 1787766690314,
+                "stop": 1787766691087,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'itu', signal = 'transitions'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...xf3rR\\x9b\\x19' == b'\\xff\\xff\\xf...x17\\xd0n\\x18C'\nE         \nE         At index 429 diff: b'\\xc3' != b'\\xb9'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_02_encoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 786,
+                "start": 1787766691087,
+                "stop": 1787766691873,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::signal::['speech', 'transitions']",
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'aal2', signal = 'transitions'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    @pytest.mark.parametrize(\"signal\", [\"speech\", \"transitions\"])\n    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:\n        source = speech_like(0x726240 + rate, 16384) if signal == \"speech\" else transition_signal(16384)\n        expected = reference.encode(source, rate, packing)\n        actual, _ = invoke(\"encode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...\\xe5R\\x0c\\xce' == b'\\xff\\xff\\xf...#\\xc3\\x8d\\x18'\nE         \nE         At index 428 diff: b'\\x85' != b'E'\nE         Use -v to get more diff\n\ntests/test_codec.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 765,
+                "start": 1787766691874,
+                "stop": 1787766692639,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'itu'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:\n        bits = rate // 8000\n        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)\n        expected = reference.decode(source, rate, packing)\n        actual, _ = invoke(\"decode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\x00\\x00\\x0...0\\x00\\x00\\x00' == b'\\x00\\x00\\x0...0\\x00\\x00\\x00'\nE         \nE         At index 890 diff: b'\\x00' != b'\\xec'\nE         Use -v to get more diff\n\ntests/test_codec.py:135: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 793,
+                "start": 1787766692639,
+                "stop": 1787766693432,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'aal2'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:\n        bits = rate // 8000\n        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)\n        expected = reference.decode(source, rate, packing)\n        actual, _ = invoke(\"decode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\x00\\x00\\x0...0\\x00\\x00\\x00' == b'\\x00\\x00\\x0...0\\x00\\x00\\x00'\nE         \nE         At index 890 diff: b'\\x00' != b'\\xec'\nE         Use -v to get more diff\n\ntests/test_codec.py:135: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 828,
+                "start": 1787766693433,
+                "stop": 1787766694261,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'itu'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:\n        bits = rate // 8000\n        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)\n        expected = reference.decode(source, rate, packing)\n        actual, _ = invoke(\"decode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\x00\\x00\\x0...0\\x00\\x00\\x00' == b'\\x00\\x00\\x0...0\\x00\\x00\\x00'\nE         \nE         At index 806 diff: b'\\x00' != b'\\x90'\nE         Use -v to get more diff\n\ntests/test_codec.py:135: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_03_decoder_bit_parity",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 855,
+                "start": 1787766694262,
+                "stop": 1787766695117,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'aal2'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:\n        bits = rate // 8000\n        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)\n        expected = reference.decode(source, rate, packing)\n        actual, _ = invoke(\"decode\", rate, packing, source)\n>       assert actual == expected\nE       AssertionError: assert b'\\x00\\x00\\x0...0\\x00\\x00\\x00' == b'\\x00\\x00\\x0...0\\x00\\x00\\x00'\nE         \nE         At index 806 diff: b'\\x00' != b'\\x90'\nE         Use -v to get more diff\n\ntests/test_codec.py:135: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 2270,
+                "start": 1787766695118,
+                "stop": 1787766697388,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'itu'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_04_long_state_and_reset(rate: int, packing: str) -> None:\n        source = transition_signal(32768)\n        expected = reference.encode(source, rate, packing)\n        first, _ = invoke(\"encode\", rate, packing, source)\n        second, _ = invoke(\"encode\", rate, packing, source)\n>       assert first == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...\\xdf%\\x1e\\xfa' == b'\\xff\\xff\\xf...xae\\xc9]\\x14K'\nE         \nE         At index 363 diff: b'>' != b'\\xe7'\nE         Use -v to get more diff\n\ntests/test_codec.py:144: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 2096,
+                "start": 1787766697388,
+                "stop": 1787766699484,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 24000, packing = 'aal2'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_04_long_state_and_reset(rate: int, packing: str) -> None:\n        source = transition_signal(32768)\n        expected = reference.encode(source, rate, packing)\n        first, _ = invoke(\"encode\", rate, packing, source)\n        second, _ = invoke(\"encode\", rate, packing, source)\n>       assert first == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...\\xef\\x89\\xf2]' == b'\\xff\\xff\\xf...xf4%\\xba\\xa2d'\nE         \nE         At index 363 diff: b'y' != b'\\x8f'\nE         Use -v to get more diff\n\ntests/test_codec.py:144: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 2443,
+                "start": 1787766699484,
+                "stop": 1787766701927,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'itu'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_04_long_state_and_reset(rate: int, packing: str) -> None:\n        source = transition_signal(32768)\n        expected = reference.encode(source, rate, packing)\n        first, _ = invoke(\"encode\", rate, packing, source)\n        second, _ = invoke(\"encode\", rate, packing, source)\n>       assert first == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...\\xca\\x91 \\xe7' == b'\\xff\\xff\\xf...882J4\\x15\\x06'\nE         \nE         At index 429 diff: b'\\xc3' != b'\\xb9'\nE         Use -v to get more diff\n\ntests/test_codec.py:144: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_04_long_state_and_reset",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 2166,
+                "start": 1787766701928,
+                "stop": 1787766704094,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "tags": [
+                    "parametrize::rate,packing::[(24000, 'itu'), (24000, 'aal2'), (40000, 'itu'), (40000, 'aal2')]"
+                ],
+                "trace": "rate = 40000, packing = 'aal2'\n\n    @pytest.mark.parametrize(\"rate,packing\", CONFIGS)\n    def test_04_long_state_and_reset(rate: int, packing: str) -> None:\n        source = transition_signal(32768)\n        expected = reference.encode(source, rate, packing)\n        first, _ = invoke(\"encode\", rate, packing, source)\n        second, _ = invoke(\"encode\", rate, packing, source)\n>       assert first == expected\nE       AssertionError: assert b'\\xff\\xff\\xf...xe7\\x94$\\xd09' == b'\\xff\\xff\\xf...A&\\x95\\x81\\n2'\nE         \nE         At index 428 diff: b'\\x85' != b'E'\nE         Use -v to get more diff\n\ntests/test_codec.py:144: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_05_cross_byte_packing",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 109,
+                "start": 1787766704094,
+                "stop": 1787766704203,
+                "retries": 0,
+                "file_path": "test_codec.py",
+                "trace": "def test_05_cross_byte_packing() -> None:\n        for rate, packing in CONFIGS:\n            bits = rate // 8000\n            mask = (1 << bits) - 1\n            codes = [0, mask, 1, mask - 1, 2, mask - 2, 3, mask - 3] * 19\n            payload = reference.pack_codes(codes, bits, packing)\n            expected = reference.decode(payload, rate, packing)\n            actual, _ = invoke(\"decode\", rate, packing, payload)\n>           assert actual == expected\nE           AssertionError: assert b'\\x00\\x00\\x0...f\\x7f\\x00\\x80' == b'\\x00\\x00\\x0...\\xff\\xff\\x80Z'\nE             \nE             At index 30 diff: b',' != b'('\nE             Use -v to get more diff\n\ntests/test_codec.py:156: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_codec.py::test_06_runtime",
+                "status": "passed",
+                "duration": 6187,
+                "start": 1787766704203,
+                "stop": 1787766710390,
+                "retries": 0,
+                "file_path": "test_codec.py"
+            }
+        ]
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "job_name": "cheat-claude-1",
+    "jobs_dir": "C:\\Users\\91962\\file1\\klavisai\\results\\g726-stream-parity\\cheat",
+    "agent_setup_timeout_multiplier": 6.0,
+    "agents": [
+        {
+            "name": "claude-code",
+            "model_name": "anthropic/claude-opus-5",
+            "kwargs": {
+                "reasoning_effort": "max"
+            }
+        }
+    ],
+    "tasks": [
+        {
+            "path": "C:\\Users\\91962\\AppData\\Local\\Temp\\tb3-cheat-stage-h8XsAr\\g726-stream-parity"
+        }
+    ]
+}

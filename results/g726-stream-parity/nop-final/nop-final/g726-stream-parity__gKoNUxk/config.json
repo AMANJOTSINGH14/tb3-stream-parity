@@ -1,0 +1,11 @@
+{
+    "task": {
+        "path": "tasks\\g726-stream-parity"
+    },
+    "trial_name": "g726-stream-parity__gKoNUxk",
+    "trials_dir": "results\\g726-stream-parity\\nop-final\\nop-final",
+    "agent": {
+        "name": "nop"
+    },
+    "job_id": "eb202385-434b-4f5d-a81c-ec03273ef215"
+}

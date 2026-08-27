@@ -1,0 +1,320 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 19 items
+
+tests/test_codec.py .FFFFFFFFFFFFFFFFF.                                  [100%]
+
+=================================== FAILURES ===================================
+_________________ test_02_encoder_bit_parity[speech-24000-itu] _________________
+
+rate = 24000, packing = 'itu', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'm\xb6\xdbm\...1;2y\xc4\xaey' == b'm\xb6\xdbm\...f8\x92WG\x94v'
+E         
+E         At index 59 diff: b'\xaf' != b'\xb5'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+________________ test_02_encoder_bit_parity[speech-24000-aal2] _________________
+
+rate = 24000, packing = 'aal2', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\xdb\xb6m\x...b1\x97<N\xf4<' == b'\xdb\xb6m\x...8\xca\xa3\xd8'
+E         
+E         At index 59 diff: b'\xf7' != b'\xbb'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+_________________ test_02_encoder_bit_parity[speech-40000-itu] _________________
+
+rate = 40000, packing = 'itu', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       assert b'\x84!\x08B\...3\xcc\xff\x86' == b'\x84!\x08B\...f96\xf4"\x0b>'
+E         
+E         At index 91 diff: b'm' != b'1'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+________________ test_02_encoder_bit_parity[speech-40000-aal2] _________________
+
+rate = 40000, packing = 'aal2', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\x10B\x08!\...f\xffid\x9e?7' == b'\x10B\x08!\...c\xcffkAD\xf6'
+E         
+E         At index 90 diff: b'?' != b'\x1f'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+______________ test_02_encoder_bit_parity[transitions-24000-itu] _______________
+
+rate = 24000, packing = 'itu', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\xff\xff\xf...x99\'\xfe\x91' == b'\xff\xff\xf...\xbeg\x1f\xd7'
+E         
+E         At index 363 diff: b'>' != b'\xe7'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+______________ test_02_encoder_bit_parity[transitions-24000-aal2] ______________
+
+rate = 24000, packing = 'aal2', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\xff\xff\xf...+Jt/\xc9\x7f)' == b'\xff\xff\xf...d\x8b\xf3\xeb'
+E         
+E         At index 363 diff: b'y' != b'\x8f'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+______________ test_02_encoder_bit_parity[transitions-40000-itu] _______________
+
+rate = 40000, packing = 'itu', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\xff\xff\xf...xf3rR\x9b\x19' == b'\xff\xff\xf...x17\xd0n\x18C'
+E         
+E         At index 429 diff: b'\xc3' != b'\xb9'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+______________ test_02_encoder_bit_parity[transitions-40000-aal2] ______________
+
+rate = 40000, packing = 'aal2', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+        actual, _ = invoke("encode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\xff\xff\xf...\xe5R\x0c\xce' == b'\xff\xff\xf...#\xc3\x8d\x18'
+E         
+E         At index 428 diff: b'\x85' != b'E'
+E         Use -v to get more diff
+
+tests/test_codec.py:126: AssertionError
+____________________ test_03_decoder_bit_parity[24000-itu] _____________________
+
+rate = 24000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+        actual, _ = invoke("decode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 890 diff: b'\x00' != b'\xec'
+E         Use -v to get more diff
+
+tests/test_codec.py:135: AssertionError
+____________________ test_03_decoder_bit_parity[24000-aal2] ____________________
+
+rate = 24000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+        actual, _ = invoke("decode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 890 diff: b'\x00' != b'\xec'
+E         Use -v to get more diff
+
+tests/test_codec.py:135: AssertionError
+____________________ test_03_decoder_bit_parity[40000-itu] _____________________
+
+rate = 40000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+        actual, _ = invoke("decode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 806 diff: b'\x00' != b'\x90'
+E         Use -v to get more diff
+
+tests/test_codec.py:135: AssertionError
+____________________ test_03_decoder_bit_parity[40000-aal2] ____________________
+
+rate = 40000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+        actual, _ = invoke("decode", rate, packing, source)
+>       assert actual == expected
+E       AssertionError: assert b'\x00\x00\x0...0\x00\x00\x00' == b'\x00\x00\x0...0\x00\x00\x00'
+E         
+E         At index 806 diff: b'\x00' != b'\x90'
+E         Use -v to get more diff
+
+tests/test_codec.py:135: AssertionError
+___________________ test_04_long_state_and_reset[24000-itu] ____________________
+
+rate = 24000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+        first, _ = invoke("encode", rate, packing, source)
+        second, _ = invoke("encode", rate, packing, source)
+>       assert first == expected
+E       AssertionError: assert b'\xff\xff\xf...\xdf%\x1e\xfa' == b'\xff\xff\xf...xae\xc9]\x14K'
+E         
+E         At index 363 diff: b'>' != b'\xe7'
+E         Use -v to get more diff
+
+tests/test_codec.py:144: AssertionError
+___________________ test_04_long_state_and_reset[24000-aal2] ___________________
+
+rate = 24000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+        first, _ = invoke("encode", rate, packing, source)
+        second, _ = invoke("encode", rate, packing, source)
+>       assert first == expected
+E       AssertionError: assert b'\xff\xff\xf...\xef\x89\xf2]' == b'\xff\xff\xf...xf4%\xba\xa2d'
+E         
+E         At index 363 diff: b'y' != b'\x8f'
+E         Use -v to get more diff
+
+tests/test_codec.py:144: AssertionError
+___________________ test_04_long_state_and_reset[40000-itu] ____________________
+
+rate = 40000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+        first, _ = invoke("encode", rate, packing, source)
+        second, _ = invoke("encode", rate, packing, source)
+>       assert first == expected
+E       AssertionError: assert b'\xff\xff\xf...\xca\x91 \xe7' == b'\xff\xff\xf...882J4\x15\x06'
+E         
+E         At index 429 diff: b'\xc3' != b'\xb9'
+E         Use -v to get more diff
+
+tests/test_codec.py:144: AssertionError
+___________________ test_04_long_state_and_reset[40000-aal2] ___________________
+
+rate = 40000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+        first, _ = invoke("encode", rate, packing, source)
+        second, _ = invoke("encode", rate, packing, source)
+>       assert first == expected
+E       AssertionError: assert b'\xff\xff\xf...xe7\x94$\xd09' == b'\xff\xff\xf...A&\x95\x81\n2'
+E         
+E         At index 428 diff: b'\x85' != b'E'
+E         Use -v to get more diff
+
+tests/test_codec.py:144: AssertionError
+__________________________ test_05_cross_byte_packing __________________________
+
+    def test_05_cross_byte_packing() -> None:
+        for rate, packing in CONFIGS:
+            bits = rate // 8000
+            mask = (1 << bits) - 1
+            codes = [0, mask, 1, mask - 1, 2, mask - 2, 3, mask - 3] * 19
+            payload = reference.pack_codes(codes, bits, packing)
+            expected = reference.decode(payload, rate, packing)
+            actual, _ = invoke("decode", rate, packing, payload)
+>           assert actual == expected
+E           AssertionError: assert b'\x00\x00\x0...f\x7f\x00\x80' == b'\x00\x00\x0...\xff\xff\x80Z'
+E             
+E             At index 30 diff: b',' != b'('
+E             Use -v to get more diff
+
+tests/test_codec.py:156: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_codec.py::test_01_protocol_surface
+PASSED tests/test_codec.py::test_06_runtime
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-itu] - As...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-aal2] - A...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-itu] - as...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-aal2] - A...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-itu]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-aal2]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-itu]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-aal2]
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[24000-itu] - Assertion...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[24000-aal2] - Assertio...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[40000-itu] - Assertion...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[40000-aal2] - Assertio...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[24000-itu] - Asserti...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[24000-aal2] - Assert...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[40000-itu] - Asserti...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[40000-aal2] - Assert...
+FAILED tests/test_codec.py::test_05_cross_byte_packing - AssertionError: asse...
+======================== 17 failed, 2 passed in 25.25s =========================

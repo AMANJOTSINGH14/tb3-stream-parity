@@ -1,0 +1,9 @@
+{
+    "job_name": "oracle-final",
+    "jobs_dir": "results\\g726-stream-parity\\oracle-final",
+    "tasks": [
+        {
+            "path": "tasks\\g726-stream-parity"
+        }
+    ]
+}

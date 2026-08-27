@@ -1,0 +1,66 @@
+[
+  {
+    "name": "encode-24000-itu",
+    "operation": "encode",
+    "rate": 24000,
+    "packing": "itu",
+    "input_hex": "00000100ffff0400fcff7f0080ffff0100feff0700f8ff1f00e0004000c0ff7f00803075d08a393060a44d00a5ff0000000200040008001000fe00fc00f800f0",
+    "output_hex": "fffee38e38e38afb4ffcafb5"
+  },
+  {
+    "name": "decode-24000-itu",
+    "operation": "decode",
+    "rate": 24000,
+    "packing": "itu",
+    "input_hex": "150a8542a150a8542a150a85",
+    "output_hex": "0000dcff28000000dcff28000000d8ff3000fcffd0ff3c00f8ffc0ff5400f4ffacff7000ecff94ff9000e0ff7cffb400d4ff5cffec00c4ff34ff2401b0ff0cff"
+  },
+  {
+    "name": "encode-24000-aal2",
+    "operation": "encode",
+    "rate": 24000,
+    "packing": "aal2",
+    "input_hex": "00000100ffff0400fcff7f0080ffff0100feff0700f8ff1f00e0004000c0ff7f00803075d08a393060a44d00a5ff0000000200040008001000fe00fc00f800f0",
+    "output_hex": "ffff711cc77154dfe67f74bb"
+  },
+  {
+    "name": "decode-24000-aal2",
+    "operation": "decode",
+    "rate": 24000,
+    "packing": "aal2",
+    "input_hex": "a850a142850a152a54a850a1",
+    "output_hex": "0000dcff28000000dcff28000000d8ff3000fcffd0ff3c00f8ffc0ff5400f4ffacff7000ecff94ff9000e0ff7cffb400d4ff5cffec00c4ff34ff2401b0ff0cff"
+  },
+  {
+    "name": "encode-40000-itu",
+    "operation": "encode",
+    "rate": 40000,
+    "packing": "itu",
+    "input_hex": "00000100ffff0400fcff7f0080ffff0100feff0700f8ff1f00e0004000c0ff7f00803075d08a393060a44d00a5ff0000000200040008001000fe00fc00f800f0",
+    "output_hex": "ffffffb28f83e0f9becdb22fcc609ef8c67fef77"
+  },
+  {
+    "name": "decode-40000-itu",
+    "operation": "decode",
+    "rate": 40000,
+    "packing": "itu",
+    "input_hex": "01550ae805542ba01550ae805542ba01550ae805",
+    "output_hex": "00001c00580030ff74ffd0ff000020006c00f8feb8fe6cfffcff880088018cfc74fbb8fd0c001802c404a4f584f11cf99c009406780d04e7e4dbfced80022811"
+  },
+  {
+    "name": "encode-40000-aal2",
+    "operation": "encode",
+    "rate": 40000,
+    "packing": "aal2",
+    "input_hex": "00000100ffff0400fcff7f0080ffff0100feff0700f8ff1f00e0004000c0ff7f00803075d08a393060a44d00a5ff0000000200040008001000fe00fc00f800f0",
+    "output_hex": "ffffff197df0c1379f6d165d8e31f17f8cf3f7be"
+  },
+  {
+    "name": "decode-40000-aal2",
+    "operation": "decode",
+    "rate": 40000,
+    "packing": "aal2",
+    "input_hex": "a0285835280a560d8a825583a260d5a028583528",
+    "output_hex": "00001c00580030ff74ffd0ff000020006c00f8feb8fe6cfffcff880088018cfc74fbb8fd0c001802c404a4f584f11cf99c009406780d04e7e4dbfced80022811"
+  }
+]

@@ -1,0 +1,1007 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 19 items
+
+tests/test_codec.py FFFFFFFFFFFFFFFFFFF                                  [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_01_protocol_surface ___________________________
+
+    def test_01_protocol_surface() -> None:
+        source = pcm([0] * 8)
+        for rate, packing in CONFIGS:
+>           actual, _ = invoke("encode", rate, packing, source)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+_________________ test_02_encoder_bit_parity[speech-24000-itu] _________________
+
+rate = 24000, packing = 'itu', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'itu'
+payload = b'\xf5\x02\xfa\x05D\t\xa4\x0c\x08\x10\xa6\x13`\x17\x12\x1b\xb0\x1eD"\xb6%f)\xaa,\x020j3\xc16\xaf9\x9b<3?\x9dA\xd7CJF\x...q\r\x87\x0ei\x0f\x05\x10Y\x10\xd1\x10\x1d\x11\x9d\x11\x01\x12\xf7\x11H\x12`\x12\xd6\x12\xef\x12;\x134\x13\xee\x12@\x12'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+________________ test_02_encoder_bit_parity[speech-24000-aal2] _________________
+
+rate = 24000, packing = 'aal2', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'aal2'
+payload = b'\xf5\x02\xfa\x05D\t\xa4\x0c\x08\x10\xa6\x13`\x17\x12\x1b\xb0\x1eD"\xb6%f)\xaa,\x020j3\xc16\xaf9\x9b<3?\x9dA\xd7CJF\x...q\r\x87\x0ei\x0f\x05\x10Y\x10\xd1\x10\x1d\x11\x9d\x11\x01\x12\xf7\x11H\x12`\x12\xd6\x12\xef\x12;\x134\x13\xee\x12@\x12'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+_________________ test_02_encoder_bit_parity[speech-40000-itu] _________________
+
+rate = 40000, packing = 'itu', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'itu'
+payload = b'\x87\xfa\x11\xf5\xb5\xef]\xea?\xe5\xa6\xe0\xae\xdc\x16\xd9\xb1\xd5\xa4\xd2+\xd0\xd5\xcdV\xcb\xb6\xc8h\xc6k\xc49\xc2....7y\x15V\x13\xea\x10\xe3\x0e\xd9\x0c\xe6\nt\t\x0f\x08\xb7\x06\xc1\x05\xaf\x04k\x03i\x02\x17\x01\xef\xff\x88\xfe\xd9\xfc'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+________________ test_02_encoder_bit_parity[speech-40000-aal2] _________________
+
+rate = 40000, packing = 'aal2', signal = 'speech'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'aal2'
+payload = b'\x87\xfa\x11\xf5\xb5\xef]\xea?\xe5\xa6\xe0\xae\xdc\x16\xd9\xb1\xd5\xa4\xd2+\xd0\xd5\xcdV\xcb\xb6\xc8h\xc6k\xc49\xc2....7y\x15V\x13\xea\x10\xe3\x0e\xd9\x0c\xe6\nt\t\x0f\x08\xb7\x06\xc1\x05\xaf\x04k\x03i\x02\x17\x01\xef\xff\x88\xfe\xd9\xfc'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+______________ test_02_encoder_bit_parity[transitions-24000-itu] _______________
+
+rate = 24000, packing = 'itu', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+______________ test_02_encoder_bit_parity[transitions-24000-aal2] ______________
+
+rate = 24000, packing = 'aal2', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+______________ test_02_encoder_bit_parity[transitions-40000-itu] _______________
+
+rate = 40000, packing = 'itu', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+______________ test_02_encoder_bit_parity[transitions-40000-aal2] ______________
+
+rate = 40000, packing = 'aal2', signal = 'transitions'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    @pytest.mark.parametrize("signal", ["speech", "transitions"])
+    def test_02_encoder_bit_parity(rate: int, packing: str, signal: str) -> None:
+        source = speech_like(0x726240 + rate, 16384) if signal == "speech" else transition_signal(16384)
+        expected = reference.encode(source, rate, packing)
+>       actual, _ = invoke("encode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+____________________ test_03_decoder_bit_parity[24000-itu] _____________________
+
+rate = 24000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+>       actual, _ = invoke("decode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'decode', rate = 24000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 63, in decode
+E                 raise ValueError("codeword trace is outside this compatibility prototype")
+E             ValueError: codeword trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'decode', '--rate', '24000', '--pac...trace is outside this compatibility prototype")\nValueError: codeword trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+____________________ test_03_decoder_bit_parity[24000-aal2] ____________________
+
+rate = 24000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+>       actual, _ = invoke("decode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'decode', rate = 24000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 63, in decode
+E                 raise ValueError("codeword trace is outside this compatibility prototype")
+E             ValueError: codeword trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'decode', '--rate', '24000', '--pac...trace is outside this compatibility prototype")\nValueError: codeword trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+____________________ test_03_decoder_bit_parity[40000-itu] _____________________
+
+rate = 40000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+>       actual, _ = invoke("decode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'decode', rate = 40000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 63, in decode
+E                 raise ValueError("codeword trace is outside this compatibility prototype")
+E             ValueError: codeword trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'decode', '--rate', '40000', '--pac...trace is outside this compatibility prototype")\nValueError: codeword trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+____________________ test_03_decoder_bit_parity[40000-aal2] ____________________
+
+rate = 40000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_03_decoder_bit_parity(rate: int, packing: str) -> None:
+        bits = rate // 8000
+        source = codeword_payload(bits, packing, 0xA112 + rate, 16384)
+        expected = reference.decode(source, rate, packing)
+>       actual, _ = invoke("decode", rate, packing, source)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'decode', rate = 40000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 63, in decode
+E                 raise ValueError("codeword trace is outside this compatibility prototype")
+E             ValueError: codeword trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'decode', '--rate', '40000', '--pac...trace is outside this compatibility prototype")\nValueError: codeword trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+___________________ test_04_long_state_and_reset[24000-itu] ____________________
+
+rate = 24000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+>       first, _ = invoke("encode", rate, packing, source)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+___________________ test_04_long_state_and_reset[24000-aal2] ___________________
+
+rate = 24000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+>       first, _ = invoke("encode", rate, packing, source)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+___________________ test_04_long_state_and_reset[40000-itu] ____________________
+
+rate = 40000, packing = 'itu'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+>       first, _ = invoke("encode", rate, packing, source)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'itu'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+___________________ test_04_long_state_and_reset[40000-aal2] ___________________
+
+rate = 40000, packing = 'aal2'
+
+    @pytest.mark.parametrize("rate,packing", CONFIGS)
+    def test_04_long_state_and_reset(rate: int, packing: str) -> None:
+        source = transition_signal(32768)
+        expected = reference.encode(source, rate, packing)
+>       first, _ = invoke("encode", rate, packing, source)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 40000, packing = 'aal2'
+payload = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00...x1cw[w\x9aw\xd9w\x18xWx\x96x\xd5x\x14ySy\x92y\xd1y\x10zOz\x8ez\xcdz\x0c{K{\x8a{\xc9{\x08|G|\x86|\xc5|\x04}C}\x82}\xc1}'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '40000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+__________________________ test_05_cross_byte_packing __________________________
+
+    def test_05_cross_byte_packing() -> None:
+        for rate, packing in CONFIGS:
+            bits = rate // 8000
+            mask = (1 << bits) - 1
+            codes = [0, mask, 1, mask - 1, 2, mask - 2, 3, mask - 3] * 19
+            payload = reference.pack_codes(codes, bits, packing)
+            expected = reference.decode(payload, rate, packing)
+>           actual, _ = invoke("decode", rate, packing, payload)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:155: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'decode', rate = 24000, packing = 'itu'
+payload = b'\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\\x1c\xe5\\'
+timeout = 20.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 63, in decode
+E                 raise ValueError("codeword trace is outside this compatibility prototype")
+E             ValueError: codeword trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'decode', '--rate', '24000', '--pac...trace is outside this compatibility prototype")\nValueError: codeword trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+_______________________________ test_06_runtime ________________________________
+
+    def test_06_runtime() -> None:
+        source = speech_like(0x726, 65536)
+        elapsed = 0.0
+        for rate, packing in CONFIGS:
+>           _, duration = invoke("encode", rate, packing, source, timeout=30.0)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_codec.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+operation = 'encode', rate = 24000, packing = 'itu'
+payload = b'6\x03V\x06B\t\n\x0c\xe1\x0ev\x11\xbd\x13H\x16\x01\x19\xf6\x1b\xbf\x1eH!\xe6#\x0f&\xb4\'\x8e)l+R-&/\x890\x182\xc63\x8...x14(\xc0\'g\'\xd6&\xb2&\'&\xd8%R%\xd5$\x1e$\x07#\xdc!\xf6 \xc8\x1fu\x1e\xe7\x1c\x91\x1bN\x1as\x19\xe0\x18N\x18\x17\x18'
+timeout = 30.0
+
+    def invoke(operation: str, rate: int, packing: str, payload: bytes, timeout: float = 20.0) -> tuple[bytes, float]:
+        assert CANDIDATE.is_file(), "/app/g726.py is missing"
+        with tempfile.TemporaryDirectory(prefix="g726-verifier-", dir="/tmp") as directory:
+            root = Path(directory)
+            os.chmod(root, 0o777)
+            source = root / "input.raw"
+            target = root / "output.raw"
+            source.write_bytes(payload)
+            os.chmod(source, 0o644)
+            command = [
+                "runuser", "-u", "nobody", "--", "python3", str(CANDIDATE), operation,
+                "--rate", str(rate), "--packing", packing,
+                "--input", str(source), "--output", str(target),
+            ]
+            started = time.perf_counter()
+            completed = subprocess.run(command, capture_output=True, timeout=timeout, check=False)
+            elapsed = time.perf_counter() - started
+>           assert completed.returncode == 0, completed.stderr.decode("utf-8", "replace")[-2000:]
+E           AssertionError: Traceback (most recent call last):
+E               File "/app/g726.py", line 84, in <module>
+E                 raise SystemExit(main())
+E                                  ^^^^^^
+E               File "/app/g726.py", line 79, in main
+E                 Path(args.output).write_bytes(operation(source, args.rate, args.packing))
+E                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               File "/app/g726.py", line 53, in encode
+E                 raise ValueError("PCM trace is outside this compatibility prototype")
+E             ValueError: PCM trace is outside this compatibility prototype
+E             
+E           assert 1 == 0
+E            +  where 1 = CompletedProcess(args=['runuser', '-u', 'nobody', '--', 'python3', '/app/g726.py', 'encode', '--rate', '24000', '--pac..."PCM trace is outside this compatibility prototype")\nValueError: PCM trace is outside this compatibility prototype\n').returncode
+
+tests/test_codec.py:107: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_codec.py::test_01_protocol_surface - AssertionError: Traceb...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-itu] - As...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-aal2] - A...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-itu] - As...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-aal2] - A...
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-itu]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-aal2]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-itu]
+FAILED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-aal2]
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[24000-itu] - Assertion...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[24000-aal2] - Assertio...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[40000-itu] - Assertion...
+FAILED tests/test_codec.py::test_03_decoder_bit_parity[40000-aal2] - Assertio...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[24000-itu] - Asserti...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[24000-aal2] - Assert...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[40000-itu] - Asserti...
+FAILED tests/test_codec.py::test_04_long_state_and_reset[40000-aal2] - Assert...
+FAILED tests/test_codec.py::test_05_cross_byte_packing - AssertionError: Trac...
+FAILED tests/test_codec.py::test_06_runtime - AssertionError: Traceback (most...
+============================== 19 failed in 6.65s ==============================

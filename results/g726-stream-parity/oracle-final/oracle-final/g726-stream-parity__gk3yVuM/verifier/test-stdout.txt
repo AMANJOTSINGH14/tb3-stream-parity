@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 19 items
+
+tests/test_codec.py ...................                                  [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_codec.py::test_01_protocol_surface
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-itu]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[speech-24000-aal2]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-itu]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[speech-40000-aal2]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-itu]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[transitions-24000-aal2]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-itu]
+PASSED tests/test_codec.py::test_02_encoder_bit_parity[transitions-40000-aal2]
+PASSED tests/test_codec.py::test_03_decoder_bit_parity[24000-itu]
+PASSED tests/test_codec.py::test_03_decoder_bit_parity[24000-aal2]
+PASSED tests/test_codec.py::test_03_decoder_bit_parity[40000-itu]
+PASSED tests/test_codec.py::test_03_decoder_bit_parity[40000-aal2]
+PASSED tests/test_codec.py::test_04_long_state_and_reset[24000-itu]
+PASSED tests/test_codec.py::test_04_long_state_and_reset[24000-aal2]
+PASSED tests/test_codec.py::test_04_long_state_and_reset[40000-itu]
+PASSED tests/test_codec.py::test_04_long_state_and_reset[40000-aal2]
+PASSED tests/test_codec.py::test_05_cross_byte_packing
+PASSED tests/test_codec.py::test_06_runtime
+============================= 19 passed in 19.41s ==============================

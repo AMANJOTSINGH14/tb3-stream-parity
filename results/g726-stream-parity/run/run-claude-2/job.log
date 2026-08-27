@@ -1,0 +1,13 @@
+Skipping image OS validation for hb__4be322cbb9592baf902be54bb1b0a109: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl bash nodejs npm procps
+Command outputs captured
+Running command: set -euo pipefail; if command -v apk &> /dev/null; then  npm install -g @anthropic-ai/claude-code; else  curl -fsSL https://downloads.claude.ai/claude-code-releases/bootstrap.sh | bash -s --; fi && echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && export PATH="$HOME/.local/bin:$PATH" && claude --version
+Command outputs captured
+Running command: mkdir -p $CLAUDE_CONFIG_DIR/debug $CLAUDE_CONFIG_DIR/projects/-app $CLAUDE_CONFIG_DIR/shell-snapshots $CLAUDE_CONFIG_DIR/statsig $CLAUDE_CONFIG_DIR/todos $CLAUDE_CONFIG_DIR/skills && if [ -d ~/.claude/skills ]; then cp -r ~/.claude/skills/. $CLAUDE_CONFIG_DIR/skills/ 2>/dev/null || true; fi
+Command outputs captured
+Running command: export PATH="$HOME/.local/bin:$PATH"; harbor_claude_code_instruction_96ee38632b6d45728922503d192a4af8="$HARBOR_CLAUDE_CODE_INSTRUCTION_96EE38632B6D45728922503D192A4AF8"; unset HARBOR_CLAUDE_CODE_INSTRUCTION_96EE38632B6D45728922503D192A4AF8; printf "%s" "$harbor_claude_code_instruction_96ee38632b6d45728922503d192a4af8" | claude --verbose --output-format=stream-json --effort max --permission-mode=bypassPermissions --print 2>&1 | tee /logs/agent/claude-code.txt
+Wrote Claude Code trajectory to C:\Users\91962\file1\klavisai\results\g726-stream-parity\run\run-claude-2\g726-stream-parity__YNZboNn\agent\trajectory.json
+Collecting main service artifacts
+Skipping image OS validation for hb__e8c816a5bb8147941a938f6723df8e81: docker inspect returned 1
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
