@@ -26,4 +26,9 @@ an audio-quality approximation.  Write no stdout text on successful runs.
 Short conformance vectors are in `/app/fixtures/public_vectors.json`.
 `make check` runs them.  Only `/app/g726.py` is collected for grading.
 
+Your implementation must also be reasonably fast: encoding a 65,536-sample
+signal once in each of the four rate/packing configurations must take at most
+20 seconds in total.  A straightforward per-sample Python implementation meets
+this comfortably.
+
 You have 5400 seconds to complete this task. Do not cheat by using online solutions or hints specific to this task.

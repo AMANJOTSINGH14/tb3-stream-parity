@@ -27,6 +27,15 @@ detection, scale adaptation, C-style narrowing, and cross-byte packing.  The
 24- and 40-kbit modes use different tables and non-byte-aligned 3- and 5-bit
 codewords.  Short signals do not exercise long-state divergence, so plausible
 ADPCM and audio-quality checks are insufficient.
+
+This is the daily work of telephony and media-gateway engineers: VoIP gateways,
+DECT and Bluetooth voice stacks, and PSTN interworking equipment all carry
+G.726, and an implementation that is merely close is worthless because the
+decoder's state diverges from the encoder's and the channel degrades into
+noise.  Anyone maintaining a softswitch, porting a codec off a retired DSP, or
+qualifying an implementation against ITU-T test vectors does exactly this:
+reproduce a fixed-point reference bit-exactly from the Recommendation, then
+prove parity on long signals rather than on a handful of frames.
 """
 solution_explanation = """
 The canonical implementation directly realizes the Recommendation's integer
@@ -43,6 +52,17 @@ checks both encode and decode on deterministic long signals containing low
 levels, full-scale transitions, tones, impulses, random speech-like runs, and
 adversarial codeword sequences.  All rates and packing conventions must match
 byte-for-byte; protocol, determinism, and runtime checks are conjunctive.
+
+The runtime check is a guard against a pathological submission, not a
+performance target.  It encodes a 65,536-sample signal once in each of the four
+rate/packing configurations and requires the total to stay within 20 seconds.
+The canonical solution completes that work in 4.33 seconds measured on a 2-CPU
+container (1.19s, 1.02s, 1.05s, 1.08s for the four configurations), so the
+threshold sits roughly 4.6x above a straightforward per-sample Python
+implementation.
+Its purpose is to reject a submission that, for example, re-derives tables per
+sample or shells out repeatedly.  The bound is stated in `instruction.md` so it
+is part of the contract rather than a hidden requirement.
 """
 relevant_experience = """
 The task was constructed by translating and independently cross-checking the
